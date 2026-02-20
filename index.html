@@ -2,7 +2,10 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>2025년도 2학년 2반 롤링페이퍼</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -104,6 +107,10 @@
         margin: 0;
         font-size: clamp(2rem, 3.2vw, 2.9rem);
         letter-spacing: 0.04em;
+      }
+
+      .header h1 .mobile-title-break {
+        display: inline;
       }
 
       .header p {
@@ -272,6 +279,9 @@
           box-shadow 0.18s ease,
           background 0.18s ease;
         text-wrap: balance;
+        white-space: nowrap;
+        line-height: 1.1;
+        text-align: center;
       }
 
       .seat:hover {
@@ -425,6 +435,14 @@
           padding-top: 10px;
         }
 
+        .header h1 .mobile-title-break {
+          display: block;
+        }
+
+        .classroom::after {
+          content: none;
+        }
+
         .desk-zone {
           min-height: 236px;
         }
@@ -434,31 +452,35 @@
         }
 
         .team-tag {
+          top: -10px;
           min-width: 104px;
           padding: 6px 10px;
+          font-size: clamp(0.9rem, 2.4vw, 1.02rem);
+          white-space: nowrap;
         }
 
         .seat {
-          min-width: 72px;
-          max-width: 84px;
-          min-height: 42px;
-          font-size: 0.95rem;
+          min-width: 68px;
+          max-width: 78px;
+          min-height: 44px;
+          padding: 7px 8px;
+          font-size: clamp(0.88rem, 2.6vw, 0.98rem);
         }
 
         .seat.top-left {
-          left: 14%;
+          left: 5%;
         }
 
         .seat.top-right {
-          right: 14%;
+          right: 5%;
         }
 
         .seat.bottom-left {
-          left: 14%;
+          left: 5%;
         }
 
         .seat.bottom-right {
-          right: 14%;
+          right: 5%;
         }
 
         .note-paper {
@@ -517,7 +539,9 @@
 
     <main class="page">
       <header class="header">
-        <h1>2025년도 2학년 2반 롤링페이퍼</h1>
+        <h1>
+          2025년도 2학년 2반 <span class="mobile-title-break">롤링페이퍼</span>
+        </h1>
         <p>자리를 눌러서 친구들의 한마디를 확인해보세요</p>
       </header>
 
