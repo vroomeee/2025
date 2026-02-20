@@ -27,7 +27,6 @@
         --shadow: 0 14px 35px rgba(98, 73, 53, 0.18);
         --radius-xl: 24px;
         --radius-l: 18px;
-        --page-scale: 1;
       }
 
       * {
@@ -37,15 +36,12 @@
       body {
         margin: 0;
         min-height: 100dvh;
-        height: 100dvh;
         font-family: "Gaegu", "Gowun Batang", sans-serif;
         color: var(--ink);
         background: linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
         position: relative;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
+        overflow-x: hidden;
+        overflow-y: auto;
       }
 
       .bg-orb {
@@ -85,10 +81,8 @@
 
       .page {
         width: min(1120px, 92vw);
-        margin: 0;
+        margin: 0 auto;
         padding: 18px 0 16px;
-        transform: scale(var(--page-scale));
-        transform-origin: top center;
       }
 
       .header {
@@ -414,8 +408,9 @@
         color: #503d36;
       }
 
-      @media (max-width: 960px) {
+      @media (max-width: 1024px) {
         .classroom {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 14px;
           padding: 16px;
         }
@@ -429,7 +424,13 @@
         }
       }
 
-      @media (max-width: 560px) {
+      @media (max-width: 768px) {
+        .classroom {
+          grid-template-columns: 1fr;
+          gap: 12px;
+          padding: 14px;
+        }
+
         .page {
           width: 94vw;
           padding-top: 10px;
@@ -685,7 +686,6 @@
       const noteTitle = document.getElementById("noteTitle");
       const noteSub = document.getElementById("noteSub");
       const noteText = document.getElementById("noteText");
-      const page = document.querySelector(".page");
 
       function openModal(groupName, studentName, note) {
         noteTitle.textContent = studentName;
@@ -696,28 +696,6 @@
 
       function closeModal() {
         modal.hidden = true;
-      }
-
-      function fitPageToViewport() {
-        if (!page) {
-          return;
-        }
-
-        document.documentElement.style.setProperty("--page-scale", "1");
-
-        const viewportWidth = window.innerWidth - 8;
-        const viewportHeight = window.innerHeight - 8;
-        const pageWidth = page.offsetWidth;
-        const pageHeight = page.offsetHeight;
-
-        const widthScale = viewportWidth / pageWidth;
-        const heightScale = viewportHeight / pageHeight;
-        const scale = Math.min(1, widthScale, heightScale);
-
-        document.documentElement.style.setProperty(
-          "--page-scale",
-          `${Math.max(scale, 0.1)}`,
-        );
       }
 
       teamData.forEach((group, index) => {
@@ -787,9 +765,6 @@
         }
       });
 
-      window.addEventListener("resize", fitPageToViewport);
-      window.addEventListener("load", fitPageToViewport);
-      fitPageToViewport();
     </script>
   </body>
 </html>
