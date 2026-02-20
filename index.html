@@ -1,0 +1,623 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>11반 롤링페이퍼</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-top: #fff5ef;
+      --bg-bottom: #f5fbff;
+      --card-bg: rgba(255, 255, 255, 0.78);
+      --desk-light: #e8d4b9;
+      --desk-dark: #d5b48c;
+      --ink: #3f2e2a;
+      --sub-ink: #6f5a53;
+      --accent: #ff8fb3;
+      --accent-soft: #ffe3ee;
+      --shadow: 0 14px 35px rgba(98, 73, 53, 0.18);
+      --radius-xl: 24px;
+      --radius-l: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Gaegu", "Gowun Batang", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .bg-orb {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(2px);
+      opacity: 0.55;
+      z-index: -1;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .bg-orb.one {
+      width: 220px;
+      height: 220px;
+      background: #ffdbe8;
+      top: -60px;
+      right: -40px;
+    }
+
+    .bg-orb.two {
+      width: 260px;
+      height: 260px;
+      background: #dff6ff;
+      left: -120px;
+      bottom: 8%;
+      animation-delay: 1.8s;
+    }
+
+    .bg-orb.three {
+      width: 180px;
+      height: 180px;
+      background: #fff0c7;
+      right: 8%;
+      bottom: 5%;
+      animation-delay: 0.8s;
+    }
+
+    .page {
+      width: min(1120px, 92vw);
+      margin: 0 auto;
+      padding: 28px 0 48px;
+    }
+
+    .header {
+      background: var(--card-bg);
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      text-align: center;
+      padding: 20px 18px 14px;
+      backdrop-filter: blur(6px);
+      margin-bottom: 24px;
+      animation: revealDown 0.65s ease both;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: clamp(2rem, 3.2vw, 2.9rem);
+      letter-spacing: 0.04em;
+    }
+
+    .header p {
+      margin: 8px 0 0;
+      font-family: "Gowun Batang", serif;
+      font-size: clamp(0.95rem, 1.4vw, 1.08rem);
+      color: var(--sub-ink);
+    }
+
+    .classroom {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(16px, 2.7vw, 34px);
+      align-items: stretch;
+      padding: clamp(18px, 3vw, 34px);
+      border-radius: 34px;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: var(--shadow);
+      background:
+        linear-gradient(90deg, rgba(220, 191, 156, 0.22) 49.7%, transparent 49.7%, transparent 50.3%, rgba(220, 191, 156, 0.22) 50.3%),
+        linear-gradient(0deg, rgba(220, 191, 156, 0.2) 49.7%, transparent 49.7%, transparent 50.3%, rgba(220, 191, 156, 0.2) 50.3%),
+        repeating-linear-gradient(90deg, #f8ecd9 0 54px, #f2e3cc 54px 56px),
+        linear-gradient(160deg, #fdf8ee, #f5e9d6 56%, #f7efdf);
+      overflow: hidden;
+    }
+
+    .classroom::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.48), transparent 56%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .classroom::after {
+      content: "11반 교실";
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(134, 105, 73, 0.2);
+      background: rgba(255, 248, 237, 0.85);
+      color: #74553f;
+      font-family: "Gowun Batang", serif;
+      font-size: 0.8rem;
+      z-index: 2;
+    }
+
+    .team {
+      position: relative;
+      min-height: 292px;
+      animation: revealUp 0.6s ease both;
+      animation-delay: var(--delay, 0s);
+      z-index: 1;
+    }
+
+    .team-head {
+      display: none;
+    }
+
+    .desk-zone {
+      position: relative;
+      min-height: 292px;
+      border-radius: 22px;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0) 58%);
+    }
+
+    .desk-zone::before {
+      content: "";
+      position: absolute;
+      inset: 18% 14%;
+      border-radius: 999px;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 72%);
+      pointer-events: none;
+    }
+
+    .desks {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: min(86%, 330px);
+      gap: 0;
+      z-index: 1;
+    }
+
+    .desk {
+      width: 100%;
+      aspect-ratio: 1 / 2;
+      background: url("./assets/desk-vertical.svg") center / contain no-repeat;
+      filter: drop-shadow(0 8px 12px rgba(103, 74, 49, 0.3));
+    }
+
+    .desk:first-child {
+      margin-right: -6px;
+    }
+
+    .desk:last-child {
+      margin-left: -6px;
+    }
+
+    .team-tag {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      font-size: clamp(1.12rem, 2vw, 1.34rem);
+      font-family: "Gowun Batang", serif;
+      background: #fffdf7;
+      border: 2px solid #f0ddc7;
+      border-radius: 14px;
+      padding: 8px 12px;
+      box-shadow: 0 8px 16px rgba(77, 51, 25, 0.12);
+      pointer-events: none;
+      text-align: center;
+      min-width: 128px;
+    }
+
+    .seat {
+      position: absolute;
+      z-index: 2;
+      border: none;
+      border-radius: 14px;
+      min-width: 84px;
+      max-width: 100px;
+      min-height: 48px;
+      padding: 8px 10px;
+      background: linear-gradient(180deg, #fffafc, #ffeef5);
+      color: var(--ink);
+      box-shadow: 0 8px 16px rgba(123, 76, 93, 0.18);
+      font-family: inherit;
+      font-size: clamp(1.02rem, 1.9vw, 1.15rem);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      text-wrap: balance;
+    }
+
+    .seat:hover {
+      transform: translateY(-4px) rotate(-1deg);
+      box-shadow: 0 14px 20px rgba(123, 76, 93, 0.2);
+      background: linear-gradient(180deg, #fff3f8, #ffe6f0);
+    }
+
+    .seat:focus-visible {
+      outline: 3px solid #ff8eb8;
+      outline-offset: 2px;
+    }
+
+    .seat.top-left {
+      top: 29%;
+      left: 16%;
+    }
+
+    .seat.top-right {
+      top: 29%;
+      right: 16%;
+    }
+
+    .seat.bottom-left {
+      bottom: 29%;
+      left: 16%;
+    }
+
+    .seat.bottom-right {
+      bottom: 29%;
+      right: 16%;
+    }
+
+    .hint {
+      text-align: center;
+      margin: 16px 0 0;
+      color: var(--sub-ink);
+      font-family: "Gowun Batang", serif;
+      font-size: 0.95rem;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: rgba(33, 22, 16, 0.42);
+      backdrop-filter: blur(2px);
+      padding: 18px;
+      z-index: 20;
+    }
+
+    .modal[hidden] {
+      display: none;
+    }
+
+    .note-card {
+      width: min(580px, 94vw);
+      border-radius: 24px;
+      background: #fffdf8;
+      border: 3px solid #f4ddca;
+      box-shadow: 0 20px 40px rgba(35, 22, 12, 0.25);
+      overflow: hidden;
+      animation: popIn 0.2s ease;
+    }
+
+    .note-head {
+      padding: 16px 18px;
+      background: linear-gradient(120deg, #ffe7f1, #fff4d9);
+      border-bottom: 2px solid #f1e0d0;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .note-title {
+      margin: 0;
+      font-size: clamp(1.35rem, 2.2vw, 1.6rem);
+    }
+
+    .note-sub {
+      margin: 2px 0 0;
+      font-family: "Gowun Batang", serif;
+      color: var(--sub-ink);
+      font-size: 0.9rem;
+    }
+
+    .close-btn {
+      border: none;
+      border-radius: 10px;
+      padding: 8px 11px;
+      background: #fff;
+      color: #5a433a;
+      cursor: pointer;
+      font-size: 1.06rem;
+      font-family: inherit;
+      box-shadow: 0 3px 10px rgba(92, 71, 57, 0.2);
+      transition: transform 0.15s ease;
+    }
+
+    .close-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .note-body {
+      padding: 20px 18px 24px;
+    }
+
+    .note-paper {
+      margin: 0;
+      padding: 18px;
+      min-height: 160px;
+      border-radius: 16px;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255, 213, 220, 0.18),
+          rgba(255, 213, 220, 0.18) 1px,
+          transparent 1px,
+          transparent 30px
+        ),
+        #fff;
+      border: 1px solid #f2dfd7;
+      box-shadow: inset 0 1px 2px rgba(91, 61, 50, 0.08);
+      white-space: pre-wrap;
+      font-size: clamp(1.05rem, 1.9vw, 1.2rem);
+      line-height: 1.65;
+      font-family: "Gowun Batang", serif;
+      color: #503d36;
+    }
+
+    @media (max-width: 960px) {
+      .classroom {
+        grid-template-columns: 1fr;
+        padding: 18px;
+      }
+
+      .team {
+        min-height: 276px;
+      }
+
+      .desk-zone {
+        min-height: 276px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: 94vw;
+        padding-top: 16px;
+      }
+
+      .desk-zone {
+        min-height: 236px;
+      }
+
+      .desks {
+        width: min(84%, 230px);
+      }
+
+      .team-tag {
+        min-width: 104px;
+        padding: 6px 10px;
+      }
+
+      .seat {
+        min-width: 72px;
+        max-width: 84px;
+        min-height: 42px;
+        font-size: 0.95rem;
+      }
+
+      .seat.top-left {
+        left: 14%;
+      }
+
+      .seat.top-right {
+        right: 14%;
+      }
+
+      .seat.bottom-left {
+        left: 14%;
+      }
+
+      .seat.bottom-right {
+        right: 14%;
+      }
+
+      .note-paper {
+        min-height: 140px;
+      }
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes revealDown {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes revealUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0.95);
+        opacity: 0.7;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orb one" aria-hidden="true"></div>
+  <div class="bg-orb two" aria-hidden="true"></div>
+  <div class="bg-orb three" aria-hidden="true"></div>
+
+  <main class="page">
+    <header class="header">
+      <h1>11반 롤링페이퍼</h1>
+      <p>자리를 눌러서 친구들의 한마디를 확인해보세요</p>
+    </header>
+
+    <section class="classroom" id="classroom" aria-label="교실 자리 배치도"></section>
+    <p class="hint">좌석 이름과 메시지는 아래 스크립트의 <code>teamData</code>에서 바로 수정할 수 있어요.</p>
+  </main>
+
+  <section class="modal" id="noteModal" hidden aria-live="polite">
+    <article class="note-card" role="dialog" aria-modal="true" aria-labelledby="noteTitle">
+      <div class="note-head">
+        <div>
+          <h2 class="note-title" id="noteTitle">좌석</h2>
+          <p class="note-sub" id="noteSub">조 정보</p>
+        </div>
+        <button type="button" class="close-btn" id="closeModalBtn" aria-label="메시지 닫기">닫기</button>
+      </div>
+      <div class="note-body">
+        <p class="note-paper" id="noteText"></p>
+      </div>
+    </article>
+  </section>
+
+  <script>
+    const teamData = [
+      {
+        groupName: "백범조",
+        seats: [
+          { student: "학생 1", note: "백범조 학생 1 메시지를 여기에 적어주세요." },
+          { student: "학생 2", note: "백범조 학생 2 메시지를 여기에 적어주세요." },
+          { student: "학생 3", note: "백범조 학생 3 메시지를 여기에 적어주세요." },
+          { student: "학생 4", note: "백범조 학생 4 메시지를 여기에 적어주세요." }
+        ]
+      },
+      {
+        groupName: "김구조",
+        seats: [
+          { student: "학생 5", note: "김구조 학생 5 메시지를 여기에 적어주세요." },
+          { student: "학생 6", note: "김구조 학생 6 메시지를 여기에 적어주세요." },
+          { student: "학생 7", note: "김구조 학생 7 메시지를 여기에 적어주세요." },
+          { student: "학생 8", note: "김구조 학생 8 메시지를 여기에 적어주세요." }
+        ]
+      },
+      {
+        groupName: "아인슈타인조",
+        seats: [
+          { student: "학생 9", note: "아인슈타인조 학생 9 메시지를 여기에 적어주세요." },
+          { student: "학생 10", note: "아인슈타인조 학생 10 메시지를 여기에 적어주세요." },
+          { student: "학생 11", note: "아인슈타인조 학생 11 메시지를 여기에 적어주세요." },
+          { student: "학생 12", note: "아인슈타인조 학생 12 메시지를 여기에 적어주세요." }
+        ]
+      },
+      {
+        groupName: "간디조",
+        seats: [
+          { student: "학생 13", note: "간디조 학생 13 메시지를 여기에 적어주세요." },
+          { student: "학생 14", note: "간디조 학생 14 메시지를 여기에 적어주세요." },
+          { student: "학생 15", note: "간디조 학생 15 메시지를 여기에 적어주세요." },
+          { student: "학생 16", note: "간디조 학생 16 메시지를 여기에 적어주세요." }
+        ]
+      }
+    ];
+
+    const seatPositions = ["top-left", "top-right", "bottom-left", "bottom-right"];
+
+    const classroom = document.getElementById("classroom");
+    const modal = document.getElementById("noteModal");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const noteTitle = document.getElementById("noteTitle");
+    const noteSub = document.getElementById("noteSub");
+    const noteText = document.getElementById("noteText");
+
+    function openModal(groupName, studentName, note) {
+      noteTitle.textContent = studentName;
+      noteSub.textContent = groupName;
+      noteText.textContent = note;
+      modal.hidden = false;
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+    }
+
+    teamData.forEach((group, index) => {
+      const team = document.createElement("article");
+      team.className = "team";
+      team.style.setProperty("--delay", `${index * 0.09}s`);
+
+      team.innerHTML = `
+        <div class="desk-zone">
+          <div class="desks" aria-hidden="true">
+            <div class="desk"></div>
+            <div class="desk"></div>
+          </div>
+          <p class="team-tag">${group.groupName}</p>
+        </div>
+      `;
+
+      const deskZone = team.querySelector(".desk-zone");
+
+      group.seats.forEach((seat, seatIndex) => {
+        const seatButton = document.createElement("button");
+        seatButton.type = "button";
+        seatButton.className = `seat ${seatPositions[seatIndex]}`;
+        seatButton.dataset.group = group.groupName;
+        seatButton.dataset.student = seat.student;
+        seatButton.dataset.note = seat.note;
+        seatButton.textContent = seat.student;
+        deskZone.appendChild(seatButton);
+      });
+
+      classroom.appendChild(team);
+    });
+
+    classroom.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement) || !target.classList.contains("seat")) {
+        return;
+      }
+
+      openModal(target.dataset.group, target.dataset.student, target.dataset.note);
+    });
+
+    closeModalBtn.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !modal.hidden) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
