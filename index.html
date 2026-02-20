@@ -321,10 +321,14 @@
         position: fixed;
         inset: 0;
         display: grid;
-        place-items: center;
+        align-items: start;
+        justify-items: center;
         background: rgba(33, 22, 16, 0.42);
         backdrop-filter: blur(2px);
-        padding: 18px;
+        padding: max(18px, env(safe-area-inset-top)) 18px
+          max(18px, env(safe-area-inset-bottom));
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         z-index: 20;
       }
 
@@ -334,10 +338,13 @@
 
       .note-card {
         width: min(680px, 94vw);
+        max-height: calc(100dvh - 36px);
         border-radius: 24px;
         background: #fffdf8;
         border: 3px solid #f4ddca;
         box-shadow: 0 20px 40px rgba(35, 22, 12, 0.25);
+        display: flex;
+        flex-direction: column;
         overflow: hidden;
         animation: popIn 0.2s ease;
       }
@@ -367,6 +374,8 @@
       .close-btn {
         border: none;
         border-radius: 10px;
+        min-width: 44px;
+        min-height: 44px;
         padding: 8px 11px;
         background: #fff;
         color: #5a433a;
@@ -383,6 +392,10 @@
 
       .note-body {
         padding: 20px 18px 24px;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       .note-paper {
@@ -818,7 +831,6 @@
           closeModal();
         }
       });
-
     </script>
   </body>
 </html>
