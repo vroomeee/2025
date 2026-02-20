@@ -426,9 +426,9 @@
 
       @media (max-width: 768px) {
         .classroom {
-          grid-template-columns: 1fr;
-          gap: 12px;
-          padding: 14px;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+          padding: 12px;
         }
 
         .page {
@@ -444,6 +444,66 @@
           content: none;
         }
 
+        .team {
+          min-height: 224px;
+        }
+
+        .desk-zone {
+          min-height: 224px;
+        }
+
+        .desk-layout {
+          width: min(90%, 200px);
+        }
+
+        .team-tag {
+          top: -8px;
+          min-width: 92px;
+          padding: 5px 8px;
+          font-size: clamp(0.78rem, 2.1vw, 0.9rem);
+          white-space: nowrap;
+        }
+
+        .seat {
+          min-width: 60px;
+          max-width: 68px;
+          min-height: 44px;
+          padding: 6px 6px;
+          font-size: clamp(0.78rem, 2.2vw, 0.88rem);
+        }
+
+        .seat.top-left {
+          left: 4%;
+        }
+
+        .seat.top-right {
+          right: 4%;
+        }
+
+        .seat.bottom-left {
+          left: 4%;
+        }
+
+        .seat.bottom-right {
+          right: 4%;
+        }
+
+        .note-paper {
+          min-height: 140px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .classroom {
+          grid-template-columns: 1fr;
+          gap: 12px;
+          padding: 14px;
+        }
+
+        .team {
+          min-height: 236px;
+        }
+
         .desk-zone {
           min-height: 236px;
         }
@@ -457,13 +517,11 @@
           min-width: 104px;
           padding: 6px 10px;
           font-size: clamp(0.9rem, 2.4vw, 1.02rem);
-          white-space: nowrap;
         }
 
         .seat {
           min-width: 68px;
           max-width: 78px;
-          min-height: 44px;
           padding: 7px 8px;
           font-size: clamp(0.88rem, 2.6vw, 0.98rem);
         }
@@ -482,10 +540,6 @@
 
         .seat.bottom-right {
           right: 5%;
-        }
-
-        .note-paper {
-          min-height: 140px;
         }
       }
 
